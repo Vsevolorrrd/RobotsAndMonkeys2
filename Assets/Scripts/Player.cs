@@ -1,14 +1,19 @@
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    bool isMoving = false;
     bool isTurning = false;
+    int moveDistance = 1;
     public void Move(string direction)
     {
-        if (direction == "forward") transform.position += Vector3.right;
-        else if (direction == "backward") transform.position += Vector3.back;
+        if (!isMoving)
+        {
+            Vector2 dir = direction == "forward" ? (transform.right * moveDistance) : (transform.right * -moveDistance);
+            StartCoroutine(SmoothMoving(dir));
+        }
     }
 
     public void Turn(string direction)
@@ -30,6 +35,25 @@ public class Player : MonoBehaviour
         Debug.Log("Player collects item!");
     }
 
+    private IEnumerator SmoothMoving(Vector2 direction)
+    {
+        isMoving = true;
+
+        Vector2 startPos = transform.position;
+        Vector2 endPos = startPos + direction;
+        float duration = 0.5f;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, endPos, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        isMoving = false;
+    }
     private IEnumerator SmoothRotate(float angle)
     {
         isTurning = true;
