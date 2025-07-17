@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator SmoothMoving(Vector2 direction)
     {
+    
         isMoving = true;
 
         Vector2 startPos = transform.position;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        yield return new WaitForSeconds(.1f); ;
 
         transform.position = endPos;
         isMoving = false;
@@ -60,7 +62,7 @@ public class Player : MonoBehaviour
 
         Quaternion startRot = transform.rotation;
         Quaternion endRot = startRot * Quaternion.Euler(0, 0, angle);
-        float duration = 0.5f;
+        float duration = 0.1f;
         float time = 0f;
 
         while (time < duration)
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        yield return new WaitForSeconds(.1f); ;
 
         transform.rotation = endRot;
         isTurning = false;
