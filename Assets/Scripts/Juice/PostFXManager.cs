@@ -1,16 +1,31 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PostFXManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] Volume codeFX;
+
     void Start()
     {
-        
+        codeFX.weight = 1f;
+        GameManager.Instance.OnStateChanged += SetFX;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SetFX(GameState state)
     {
-        
+        switch (state)
+        {
+            case GameState.Programming:
+                codeFX.weight = 1f;
+                break;
+            case GameState.Executing:
+                codeFX.weight = 0f;
+                break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnStateChanged -= SetFX;
     }
 }

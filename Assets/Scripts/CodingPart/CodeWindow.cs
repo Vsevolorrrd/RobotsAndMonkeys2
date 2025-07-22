@@ -10,6 +10,8 @@ public class CodeWindow : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.OnStateChanged += SetUI;
+
         runButton.onClick.AddListener(() =>
         {
             string[] lines = codeInputField.text.Split('\n');
@@ -29,14 +31,9 @@ public class CodeWindow : MonoBehaviour
                 break;
         }
     }
-    private void OnEnable()
-    {
-        GameManager.Instance.OnStateChanged += SetUI;
-    }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.Instance.OnStateChanged -= SetUI;
     }
-
 }

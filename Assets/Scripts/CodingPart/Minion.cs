@@ -14,7 +14,7 @@ public class Minion : MonoBehaviour
 
         Debug.Log("Player moves!");
 
-        Vector2 dir = direction == "forward" ? (transform.right * moveDistance) : (transform.right * -moveDistance);
+        Vector2 dir = direction == "forward" ? (transform.up * moveDistance) : (transform.up * -moveDistance);
         yield return StartCoroutine(SmoothMoving(dir));
     }
 
