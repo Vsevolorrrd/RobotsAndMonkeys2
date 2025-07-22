@@ -10,6 +10,7 @@ public class CodeWindow : MonoBehaviour
 
     private void Start()
     {
+        UI.SetActive(true);
         GameManager.Instance.OnStateChanged += SetUI;
 
         runButton.onClick.AddListener(() =>

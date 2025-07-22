@@ -30,45 +30,70 @@ public class CodeManager : Singleton<CodeManager>
             yield return new WaitForSeconds(0.5f); // Delay between commands
         }
         yield return new WaitForSeconds(1f);
-        GameManager.Instance.SetState(GameState.Programming);
+        GameManager.Instance.ResetLevel();
     }
 
     private IEnumerator ExecuteCommand(string commandLine)
     {
-        string[] parts = commandLine.Split(' ');
+        string raw = commandLine.Trim().ToLower();
+
+        #region Looping Actions
+
+        int repeatCount = 1;
+        // basically find the brackets and use them to get what's in between
+        if (raw.Contains('(') && raw.EndsWith(")"))
+        {
+            int open = raw.LastIndexOf('(');
+            int close = raw.LastIndexOf(')');
+
+            string repeatPart = raw.Substring(open + 1, close - open - 1);
+            if (int.TryParse(repeatPart, out int parsed))
+            repeatCount = Mathf.Max(1, parsed);
+
+            raw = raw.Substring(0, open).Trim();
+        }
+
+        #endregion
+
+        string[] parts = raw.Split(' ');
         string command = parts[0];
 
-        switch (command)
+        for (int i = 0; i < repeatCount; i++)
         {
-            case "move":
-                if (parts.Length > 1)
-                yield return StartCoroutine(minion.Move(parts[1]));
-                else
-                Debug.LogWarning("move command missing direction");
-                break;
+            switch (command)
+            {
+                case "move":
+                    if (parts.Length > 1)
+                    yield return StartCoroutine(minion.Move(parts[1]));
+                    else
+                    Debug.LogWarning("move command missing direction");
+                    break;
 
-            case "turn":
-                if (parts.Length > 1)
-                yield return StartCoroutine(minion.Turn(parts[1]));
-                else
-                Debug.LogWarning("turn command missing directio");
-                break;
+                case "turn":
+                    if (parts.Length > 1)
+                    yield return StartCoroutine(minion.Turn(parts[1]));
+                    else
+                    Debug.LogWarning("turn command missing directio");
+                    break;
 
-            case "attack":
-                minion.Attack();
-                break;
+                case "attack":
+                    minion.Attack();
+                    break;
 
-            case "collect":
-                minion.Collect();
-                break;
+                case "collect":
+                    minion.Collect();
+                    break;
 
-            case "wait":
-                yield return new WaitForSeconds(1f);
-                break;
+                case "wait":
+                    yield return new WaitForSeconds(1f);
+                    break;
 
-            default:
-                Debug.LogWarning($"Unknown command: {commandLine}");
-                break;
+                default:
+                    Debug.LogWarning($"Unknown command: {commandLine}");
+                    break;
+            }
+
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return null;

@@ -6,6 +6,7 @@ public class Minion : MonoBehaviour
     private bool isMoving = false;
     private bool isTurning = false;
     private int moveDistance = 1;
+    private Vector3 initialPosition;
 
     public IEnumerator Move(string direction)
     {
@@ -77,5 +78,24 @@ public class Minion : MonoBehaviour
 
         transform.rotation = endRot;
         isTurning = false;
+    }
+
+    private void HandleReset()
+    {
+        transform.position = initialPosition;
+        transform.rotation = Quaternion.identity;
+        StopAllCoroutines();
+    }
+
+    private void Start()
+    {
+        initialPosition = transform.position;
+        GameManager.Instance.OnGameReset += HandleReset;
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance)
+       GameManager.Instance.OnGameReset -= HandleReset;
     }
 }
