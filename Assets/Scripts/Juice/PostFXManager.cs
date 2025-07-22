@@ -1,17 +1,36 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.Rendering;
 
-public class PostFXManager : MonoBehaviour
+public class PostFXManager : Singleton<PostFXManager>
 {
     [SerializeField] Volume codeFX;
+    [SerializeField] Volume victoryFX;
+    [SerializeField] float effectDecaySpeed = 1f;
 
-    void Start()
+    public void VictoryFX()
     {
-        codeFX.weight = 1f;
-        GameManager.Instance.OnStateChanged += SetFX;
+        StartCoroutine(PlayVictoryEffect());
     }
 
-    private void SetFX(GameState state)
+    private IEnumerator PlayVictoryEffect()
+    {
+        if (victoryFX == null)
+        yield break;
+
+        victoryFX.weight = 1f;
+
+        while (victoryFX.weight > 0)
+        {
+            victoryFX.weight -= effectDecaySpeed * Time.deltaTime;
+            victoryFX.weight = Mathf.Max(victoryFX.weight, 0);
+            yield return null;
+        }
+
+        victoryFX.weight = 0f;
+    }
+
+    private void SetProgrammingFX(GameState state)
     {
         switch (state)
         {
@@ -24,8 +43,13 @@ public class PostFXManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        codeFX.weight = 1f;
+        GameManager.Instance.OnStateChanged += SetProgrammingFX;
+    }
     private void OnDestroy()
     {
-        GameManager.Instance.OnStateChanged -= SetFX;
+        GameManager.Instance.OnStateChanged -= SetProgrammingFX;
     }
 }

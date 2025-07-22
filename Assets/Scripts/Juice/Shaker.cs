@@ -22,7 +22,7 @@ public class Shaker : Singleton<Shaker>
     public void ShakeCamera(float intensity, float duration)
     {
         if (shakeCoroutine != null)
-            StopCoroutine(shakeCoroutine);
+        StopCoroutine(shakeCoroutine);
 
         shakeCoroutine = StartCoroutine(Shake(intensity, intensity, duration));
     }

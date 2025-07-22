@@ -6,6 +6,8 @@ public class CodeManager : Singleton<CodeManager>
 {
     public Minion minion;
     private Queue<string> commands = new();
+    private bool playerWon = false;
+    public void PlayerWon() => playerWon = true;
 
     public void LoadProgram(string[] lines)
     {
@@ -30,6 +32,7 @@ public class CodeManager : Singleton<CodeManager>
             yield return new WaitForSeconds(0.5f); // Delay between commands
         }
         yield return new WaitForSeconds(1f);
+        if (!playerWon)
         GameManager.Instance.ResetLevel();
     }
 
@@ -93,6 +96,7 @@ public class CodeManager : Singleton<CodeManager>
                     break;
             }
 
+            if (repeatCount > 1)
             yield return new WaitForSeconds(0.5f);
         }
 

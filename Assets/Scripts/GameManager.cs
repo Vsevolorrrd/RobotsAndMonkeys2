@@ -29,6 +29,12 @@ public class GameManager : Singleton<GameManager>
         SetState(GameState.Programming);
         OnGameReset?.Invoke();
     }
+
+    public void PlayerWon()
+    {
+        CodeManager.Instance.PlayerWon();
+        PostFXManager.Instance.VictoryFX();
+    }
 }
 public enum GameState
 {
