@@ -5,6 +5,7 @@ public class Minion : MonoBehaviour
 {
     [SerializeField] LayerMask wallLayer;
     [SerializeField] LayerMask monkeyLayer;
+    [SerializeField] GameObject blood;
 
     private bool isMoving = false;
     private bool isTurning = false;
@@ -113,7 +114,7 @@ public class Minion : MonoBehaviour
             yield return null;
         }
 
-        Shaker.Instance.ShakeCamera(0.9f, 0.5f);
+        Shaker.Instance.ShakeCamera(0.9f, 0.4f);
         time = 0f;
 
         while (time < duration)
@@ -175,7 +176,8 @@ public class Minion : MonoBehaviour
         }
 
         monkey.Die();
-        Shaker.Instance.ShakeCamera(2f, 1f);
+        blood.SetActive(true);
+        Shaker.Instance.ShakeCamera(2.5f, 0.8f);
         transform.position = endPos;
         isAttacking = false;
     }
@@ -190,6 +192,7 @@ public class Minion : MonoBehaviour
     {
         transform.position = initialPosition;
         transform.rotation = Quaternion.identity;
+        blood.SetActive(false);
         StopAllCoroutines();
     }
 

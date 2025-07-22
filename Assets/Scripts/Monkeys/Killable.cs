@@ -5,6 +5,7 @@ public class Killable : MonoBehaviour
     [SerializeField] GameObject sprites;
     [SerializeField] GameObject gore;
     [SerializeField] ParticleSystem killFX;
+    [SerializeField] AudioClip deathSound;
     private Vector3 initialPosition;
     private L_Goal goal;
     private bool dead;
@@ -20,6 +21,8 @@ public class Killable : MonoBehaviour
         sprites.SetActive(false);
         gore.SetActive(true);
         killFX.Play();
+        if (AudioManager.Instance)
+        AudioManager.Instance.PlaySound(deathSound, 0.8f);
     }
     protected virtual void HandleReset()
     {
