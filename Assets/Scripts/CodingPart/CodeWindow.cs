@@ -4,20 +4,39 @@ using UnityEngine.UI;
 
 public class CodeWindow : MonoBehaviour
 {
-    public TMP_InputField codeInputField;
-    public Button runButton;
-    private CodeManager interpreter;
+    [SerializeField] GameObject UI;
+    [SerializeField] TMP_InputField codeInputField;
+    [SerializeField] Button runButton;
 
-    private void Awake()
-    {
-        interpreter = CodeManager.Instance;
-    }
     private void Start()
     {
         runButton.onClick.AddListener(() =>
         {
             string[] lines = codeInputField.text.Split('\n');
-            interpreter.LoadProgram(lines);
+            CodeManager.Instance.LoadProgram(lines);
+            GameManager.Instance.SetState(GameState.Executing);
         });
     }
+    private void SetUI(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.Programming:
+                UI.SetActive(true);
+                break;
+            case GameState.Executing:
+                UI.SetActive(false);
+                break;
+        }
+    }
+    private void OnEnable()
+    {
+        GameManager.Instance.OnStateChanged += SetUI;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnStateChanged -= SetUI;
+    }
+
 }

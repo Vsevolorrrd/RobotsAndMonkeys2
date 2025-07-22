@@ -29,6 +29,8 @@ public class CodeManager : Singleton<CodeManager>
             yield return ExecuteCommand(commandLine);
             yield return new WaitForSeconds(0.5f); // Delay between commands
         }
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.SetState(GameState.Programming);
     }
 
     private IEnumerator ExecuteCommand(string commandLine)

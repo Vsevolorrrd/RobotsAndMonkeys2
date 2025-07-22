@@ -1,12 +1,29 @@
+using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private bool codeIsRunnig = false;
-    public bool CodeIsRunning() {  return codeIsRunnig; }
+    private GameState currentState;
+    public event Action<GameState> OnStateChanged;
+    public GameState CurrentState => currentState;
 
-    public void SwitchState(bool state)
+    private void Start()
     {
-
+        SetState(GameState.Programming);
     }
+
+    public void SetState(GameState newState)
+    {
+        if (currentState == newState)
+        return;
+
+        currentState = newState;
+        Debug.Log("Game state changed to: " + currentState);
+        OnStateChanged?.Invoke(currentState);
+    }
+}
+public enum GameState
+{
+    Programming,
+    Executing
 }
