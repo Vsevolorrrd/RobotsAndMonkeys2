@@ -180,6 +180,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1678580017857422226}
   - component: {fileID: 5046298604345187571}
+  - component: {fileID: 2532511828720533577}
+  - component: {fileID: 4469419023080775410}
   - component: {fileID: 6167259710629843547}
   - component: {fileID: 525576985240633765}
   m_Layer: 0
@@ -247,6 +249,38 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &2532511828720533577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740790873208705784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrackerSettings:
+    BindingMode: 4
+    PositionDamping: {x: 0.8, y: 0.8, z: 0.8}
+    AngularDampingMode: 0
+    RotationDamping: {x: 1, y: 1, z: 1}
+    QuaternionDamping: 1
+  FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!114 &4469419023080775410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740790873208705784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4afa82ae3200b82408d605c3dbdd1e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: 0.5
 --- !u!114 &6167259710629843547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +297,7 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 0
   FrequencyGain: 0
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: -819.1698, y: -753.59436, z: 511.98312}
 --- !u!114 &525576985240633765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,3 +356,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e2d16ee691b774497c036f48888e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemaCam: {fileID: 5046298604345187571}
+  targetToFollow: {fileID: 0}
