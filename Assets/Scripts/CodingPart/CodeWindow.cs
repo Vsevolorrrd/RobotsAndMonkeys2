@@ -7,10 +7,13 @@ public class CodeWindow : MonoBehaviour
     [SerializeField] GameObject UI;
     [SerializeField] TMP_InputField codeInputField;
     [SerializeField] Button runButton;
+    [SerializeField] bool SetActiveOnStart = true;
 
     private void Start()
     {
+        if (SetActiveOnStart)
         UI.SetActive(true);
+
         GameManager.Instance.OnStateChanged += SetUI;
 
         runButton.onClick.AddListener(() =>
