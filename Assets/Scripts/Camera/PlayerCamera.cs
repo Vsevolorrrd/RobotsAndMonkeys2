@@ -14,11 +14,7 @@ public class PlayerCamera : MonoBehaviour
     }
     private void UpdateCamPos()
     {
-        if (cinemaCam.Follow != targetToFollow && targetToFollow != null)
-        {
-            cinemaCam.Follow = targetToFollow;
-            cinemaCam.LookAt = targetToFollow;
-        }
+
     }
     private void ChangeCameraMode(GameState state)
     {
@@ -26,17 +22,18 @@ public class PlayerCamera : MonoBehaviour
         {
             case GameState.Programming:
                 activeCamera = false;
-                cinemaCam.enabled = false;
+                cinemaCam.Follow = transform;
+                cinemaCam.LookAt = transform;
                 break;
             case GameState.Executing:
+                cinemaCam.Follow = targetToFollow;
+                cinemaCam.LookAt = targetToFollow;
                 activeCamera = true;
-                cinemaCam.enabled = true;
                 break;
         }
     }
     void Start()
     {
-        cinemaCam.enabled = false;
         GameManager.Instance.OnStateChanged += ChangeCameraMode;
     }
     private void OnDestroy()

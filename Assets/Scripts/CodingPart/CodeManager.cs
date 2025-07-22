@@ -80,7 +80,7 @@ public class CodeManager : Singleton<CodeManager>
                     break;
 
                 case "attack":
-                    minion.Attack();
+                    yield return StartCoroutine(minion.Attack());
                     break;
 
                 case "collect":

@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Minion : MonoBehaviour
 {
-    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] LayerMask wallLayer;
+    [SerializeField] LayerMask monkeyLayer;
 
     private bool isMoving = false;
     private bool isTurning = false;
+    private bool isAttacking = false;
     private int moveDistance = 1;
     private Vector3 initialPosition;
 
@@ -40,9 +42,34 @@ public class Minion : MonoBehaviour
         yield return StartCoroutine(SmoothRotate(angle));
     }
 
-    public void Attack()
+    public IEnumerator Attack()
     {
-        Debug.Log("Player attacks!");
+        if (isAttacking)
+        yield break;
+
+        Vector2 checkDirection = transform.up;
+
+        if (IsWallInDirection(checkDirection))
+        {
+            Debug.Log("There is a wall! Noooooo!!!");
+            StartCoroutine(BumpIntoTheWall(checkDirection));
+            yield break;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, checkDirection, moveDistance, monkeyLayer);
+
+        if (hit.collider == null)
+        {
+            Debug.Log("There is no monkey! Noooooo!!!");
+            StartCoroutine(BumpIntoTheWall(checkDirection));
+            yield break;
+        }
+
+        Killable monkey = hit.collider.GetComponent<Killable>();
+        Debug.Log("MONKEY!");
+
+        Vector2 dir = transform.up * moveDistance;
+        yield return StartCoroutine(AttackAnim(dir, monkey));
     }
 
     public void Collect()
@@ -86,7 +113,7 @@ public class Minion : MonoBehaviour
             yield return null;
         }
 
-        Shaker.Instance.ShakeCamera(0.6f, 0.3f);
+        Shaker.Instance.ShakeCamera(0.9f, 0.5f);
         time = 0f;
 
         while (time < duration)
@@ -118,6 +145,39 @@ public class Minion : MonoBehaviour
 
         transform.rotation = endRot;
         isTurning = false;
+    }
+
+    private IEnumerator AttackAnim(Vector2 direction, Killable monkey)
+    {
+        isAttacking = true;
+
+        Vector2 startPos = transform.position;
+        Vector2 buildUpPos = startPos - direction/6f;
+        Vector2 endPos = startPos + direction;
+        float buildUpDuration = 0.25f;
+        float duration = 0.25f;
+        float time = 0f;
+
+        while (time < buildUpDuration)
+        {
+            transform.position = Vector2.Lerp(startPos, buildUpPos, time / buildUpDuration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        time = 0f;
+
+        while (time < duration)
+        {
+            transform.position = Vector2.Lerp(buildUpPos, endPos, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        monkey.Die();
+        Shaker.Instance.ShakeCamera(2f, 1f);
+        transform.position = endPos;
+        isAttacking = false;
     }
 
     private bool IsWallInDirection(Vector2 dir)
