@@ -262,6 +262,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   blood: {fileID: 5005665980548510244}
+  roombaShort: {fileID: 8300000, guid: 47b4f08719d7c68448b364ddc9e4d28e, type: 3}
+  roombaSuperShort: {fileID: 8300000, guid: 69aea517e1b04d54a86baa4faed6207b, type: 3}
+  roombaSound: {fileID: 8300000, guid: b58259a39c7c9094a95fb7163a7f8423, type: 3}
+  hitSound: {fileID: 8300000, guid: c02ae3cf1644c7c4d98501298a2dc169, type: 3}
 --- !u!58 &7523044953788187662
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -6,6 +6,10 @@ public class Minion : MonoBehaviour
     [SerializeField] LayerMask wallLayer;
     [SerializeField] LayerMask monkeyLayer;
     [SerializeField] GameObject blood;
+    [SerializeField] AudioClip roombaShort;
+    [SerializeField] AudioClip roombaSuperShort;
+    [SerializeField] AudioClip roombaSound;
+    [SerializeField] AudioClip hitSound;
 
     private bool isMoving = false;
     private bool isTurning = false;
@@ -82,6 +86,7 @@ public class Minion : MonoBehaviour
     {
         isMoving = true;
 
+        AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Vector2 startPos = transform.position;
         Vector2 endPos = startPos + direction;
         float duration = 0.5f;
@@ -102,6 +107,7 @@ public class Minion : MonoBehaviour
     {
         isMoving = true;
 
+        AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Vector2 startPos = transform.position;
         Vector2 endPos = startPos + checkDirection * 0.28f;
         float duration = 0.25f;
@@ -114,7 +120,8 @@ public class Minion : MonoBehaviour
             yield return null;
         }
 
-        Shaker.Instance.ShakeCamera(0.9f, 0.4f);
+        AudioManager.Instance.PlaySound(hitSound, 0.6f);
+        Shaker.Instance.ShakeCamera(1.2f, 0.4f);
         time = 0f;
 
         while (time < duration)
@@ -132,6 +139,7 @@ public class Minion : MonoBehaviour
     {
         isTurning = true;
 
+        AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Quaternion startRot = transform.rotation;
         Quaternion endRot = startRot * Quaternion.Euler(0, 0, angle);
         float duration = 0.3f;
@@ -152,6 +160,7 @@ public class Minion : MonoBehaviour
     {
         isAttacking = true;
 
+        AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Vector2 startPos = transform.position;
         Vector2 buildUpPos = startPos - direction/6f;
         Vector2 endPos = startPos + direction;

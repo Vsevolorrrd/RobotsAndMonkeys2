@@ -26,7 +26,7 @@ public class SleepyMonkey : Killable
     private void Snoring()
     {
         if (snoring == null) return;
-        AudioManager.Instance.PlaySound(snoring, 0.7f);
+        AudioManager.Instance.PlaySound(snoring, 0.3f);
         float time = snoring.length;
         Invoke("Snoring", time);
     }
