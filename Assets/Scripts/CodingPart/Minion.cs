@@ -4,6 +4,7 @@ using UnityEngine;
 public class Minion : MonoBehaviour
 {
     [SerializeField] LayerMask wallLayer;
+    [SerializeField] LayerMask moveObjectLayer;
     [SerializeField] LayerMask monkeyLayer;
     [SerializeField] GameObject blood;
     [SerializeField] AudioClip roombaShort;
@@ -23,6 +24,7 @@ public class Minion : MonoBehaviour
         yield break;
 
         Vector2 checkDirection = direction == "forward" ? transform.up : -transform.up;
+        Vector2 dir = direction == "forward" ? (transform.up * moveDistance) : (transform.up * -moveDistance);
         if (IsWallInDirection(checkDirection))
         {
             Debug.Log("There is a wall! Noooooo!!!");
@@ -30,9 +32,23 @@ public class Minion : MonoBehaviour
             yield break;
         }
 
-        Debug.Log("Player moves!");
+        if (IsMoveObjInDirection(checkDirection))
+        {
+            var objectToMove = GetObject(checkDirection, moveObjectLayer);
 
-        Vector2 dir = direction == "forward" ? (transform.up * moveDistance) : (transform.up * -moveDistance);
+            if (IsWallInDirection(checkDirection, objectToMove.transform))
+            {
+                Debug.Log("There is a wall! Noooooo!!!");
+                StartCoroutine(BumpIntoTheWall(checkDirection));
+                yield break;
+            }
+
+            Debug.Log("I move the object!");
+            StartCoroutine(MoveObject(checkDirection, objectToMove));
+            yield break;
+        }
+
+        Debug.Log("Player moves!");
         yield return StartCoroutine(SmoothMoving(dir));
     }
 
@@ -54,7 +70,7 @@ public class Minion : MonoBehaviour
 
         Vector2 checkDirection = transform.up;
 
-        if (IsWallInDirection(checkDirection))
+        if (IsWallInDirection(checkDirection) || IsMoveObjInDirection(checkDirection))
         {
             Debug.Log("There is a wall! Noooooo!!!");
             StartCoroutine(BumpIntoTheWall(checkDirection));
@@ -121,7 +137,7 @@ public class Minion : MonoBehaviour
         }
 
         AudioManager.Instance.PlaySound(hitSound, 0.6f);
-        Shaker.Instance.ShakeCamera(1.2f, 0.4f);
+        Shaker.Instance.ShakeCamera(1.4f, 0.4f);
         time = 0f;
 
         while (time < duration)
@@ -190,11 +206,63 @@ public class Minion : MonoBehaviour
         transform.position = endPos;
         isAttacking = false;
     }
-
-    private bool IsWallInDirection(Vector2 dir)
+    private IEnumerator MoveObject(Vector2 direction, GameObject objectToMove)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, moveDistance, wallLayer);
+        isMoving = true;
+
+        AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
+        Vector2 startPos = transform.position;
+        Vector2 endPos = startPos + direction * 1f;
+        float duration = 0.5f;
+        float time = 0f;
+
+        Vector2 objStartPos = objectToMove.transform.position;
+        Vector2 objEndPos = objStartPos + direction * 1f;
+        float objDuration = 0.3f;
+        float objTime = 0f;
+
+
+        while (time < duration)
+        {
+            transform.position = Vector2.Lerp(startPos, endPos, time / 0.42f);
+            time += Time.deltaTime;
+            if (time > 0.18f)
+            {
+                //Shaker.Instance.ShakeCamera(0.8f, 0.4f);
+                //AudioManager.Instance.PlaySound(hitSound, 0.4f);
+                objectToMove.transform.position = Vector2.Lerp(objStartPos, objEndPos, objTime / objDuration);
+                objTime += Time.deltaTime;
+            }
+            yield return null;
+        }
+
+        objectToMove.transform.position = objEndPos;
+        transform.position = endPos;
+        isMoving = false;
+    }
+
+    private bool IsWallInDirection(Vector2 dir, Transform targetPos = null)
+    {
+        Vector2 pos = transform.position;
+        if (targetPos != null)
+        pos = targetPos.position;
+
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, moveDistance, wallLayer);
         return hit.collider != null;
+    }
+    private bool IsMoveObjInDirection(Vector2 dir, Transform targetPos = null)
+    {
+        Vector2 pos = transform.position;
+        if (targetPos != null)
+        pos = targetPos.position;
+
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, moveDistance, moveObjectLayer);
+        return hit.collider != null;
+    }
+    private GameObject GetObject(Vector2 dir, LayerMask layerMask)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, moveDistance, layerMask);
+        return hit.collider.gameObject;
     }
 
     private void HandleReset()
