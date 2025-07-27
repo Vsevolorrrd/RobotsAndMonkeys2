@@ -20,6 +20,6 @@ public class L_MoveObject : MonoBehaviour
     private void OnDestroy()
     {
         if (GameManager.Instance)
-            GameManager.Instance.OnGameReset -= HandleReset;
+        GameManager.Instance.OnGameReset -= HandleReset;
     }
 }

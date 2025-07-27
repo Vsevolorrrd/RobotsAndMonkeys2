@@ -70,6 +70,14 @@ public class Minion : MonoBehaviour
 
         Vector2 checkDirection = transform.up;
 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, checkDirection, moveDistance, monkeyLayer);
+        if (hit.collider == null)
+        {
+            Debug.Log("There is no monkey! Noooooo!!!");
+            AudioManager.Instance.PlaySound(roombaSound, 1f);
+            yield break;
+        }
+
         if (IsWallInDirection(checkDirection) || IsMoveObjInDirection(checkDirection))
         {
             Debug.Log("There is a wall! Noooooo!!!");
@@ -77,16 +85,8 @@ public class Minion : MonoBehaviour
             yield break;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, checkDirection, moveDistance, monkeyLayer);
-
-        if (hit.collider == null)
-        {
-            Debug.Log("There is no monkey! Noooooo!!!");
-            StartCoroutine(BumpIntoTheWall(checkDirection));
-            yield break;
-        }
-
         Killable monkey = hit.collider.GetComponent<Killable>();
+        monkey.AboutToDie();
         Debug.Log("MONKEY!");
 
         Vector2 dir = transform.up * moveDistance;
@@ -158,7 +158,7 @@ public class Minion : MonoBehaviour
         AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Quaternion startRot = transform.rotation;
         Quaternion endRot = startRot * Quaternion.Euler(0, 0, angle);
-        float duration = 0.3f;
+        float duration = 0.5f;
         float time = 0f;
 
         while (time < duration)

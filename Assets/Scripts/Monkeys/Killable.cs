@@ -5,7 +5,7 @@ public class Killable : MonoBehaviour
     [SerializeField] GameObject gore;
     [SerializeField] ParticleSystem killFX;
     [SerializeField] AudioClip deathSound;
-    private Transform initialPosition;
+    private Vector3 initialPosition;
     private L_Goal goal;
     private bool dead;
 
@@ -22,12 +22,16 @@ public class Killable : MonoBehaviour
         if (AudioManager.Instance)
         AudioManager.Instance.PlaySound(deathSound, 0.8f);
     }
+    public virtual void AboutToDie()
+    {
+        if (dead) return;
+    }
     protected virtual void HandleReset()
     {
         dead = false;
 
-        transform.position = initialPosition.position;
-        transform.rotation = initialPosition.rotation;
+        transform.position = initialPosition;
+        transform.rotation = Quaternion.identity;
 
         gore.SetActive(false);
     }
@@ -39,7 +43,7 @@ public class Killable : MonoBehaviour
 
     protected virtual void Start()
     {
-        initialPosition = transform;
+        initialPosition = transform.position;
         GameManager.Instance.OnGameReset += HandleReset;
     }
 

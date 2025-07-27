@@ -88,7 +88,7 @@ public class CodeManager : Singleton<CodeManager>
                     break;
 
                 case "wait":
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.5f);
                     break;
 
                 default:
