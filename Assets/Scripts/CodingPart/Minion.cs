@@ -23,8 +23,8 @@ public class Minion : MonoBehaviour
         if (isMoving)
         yield break;
 
-        Vector2 checkDirection = direction == "forward" ? transform.up : -transform.up;
-        Vector2 dir = direction == "forward" ? (transform.up * moveDistance) : (transform.up * -moveDistance);
+        Vector2 checkDirection = direction == "backward" ? -transform.up : transform.up;
+        Vector2 dir = direction == "backward" ? (transform.up * -moveDistance) : (transform.up * moveDistance);
         if (IsWallInDirection(checkDirection))
         {
             Debug.Log("There is a wall! Noooooo!!!");
