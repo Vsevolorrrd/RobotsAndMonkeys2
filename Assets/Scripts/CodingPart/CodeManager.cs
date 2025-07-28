@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CodeManager : Singleton<CodeManager>
@@ -89,6 +90,10 @@ public class CodeManager : Singleton<CodeManager>
 
                 case "wait":
                     yield return new WaitForSeconds(0.5f);
+                    break;
+
+                case "shoot":
+                    yield return StartCoroutine(minion.Shoot());
                     break;
 
                 default:

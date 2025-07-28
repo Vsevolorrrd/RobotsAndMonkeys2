@@ -12,10 +12,13 @@ public class Minion : MonoBehaviour
     [SerializeField] AudioClip roombaSuperShort;
     [SerializeField] AudioClip roombaSound;
     [SerializeField] AudioClip hitSound;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform firePoint;
 
     private bool isMoving = false;
     private bool isTurning = false;
     private bool isAttacking = false;
+    private bool isShooting = false;
     private int moveDistance = 1;
     private Vector3 initialPosition;
     Collectable item;
@@ -103,6 +106,18 @@ public class Minion : MonoBehaviour
             item = null;
         }
         Debug.Log("Player collects item!");
+    }
+
+    public IEnumerator Shoot()
+    {
+        if (isShooting)
+            yield break;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.SetDirection(transform.up);
+
+        Debug.Log("Shooted");
     }
 
     private IEnumerator SmoothMoving(Vector2 direction)
