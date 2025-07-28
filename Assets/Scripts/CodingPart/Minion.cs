@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Minion : MonoBehaviour
@@ -17,11 +18,12 @@ public class Minion : MonoBehaviour
     private bool isAttacking = false;
     private int moveDistance = 1;
     private Vector3 initialPosition;
+    Collectable item;
 
     public IEnumerator Move(string direction)
     {
         if (isMoving)
-        yield break;
+            yield break;
 
         Vector2 checkDirection = direction == "backward" ? -transform.up : transform.up;
         Vector2 dir = direction == "backward" ? (transform.up * -moveDistance) : (transform.up * moveDistance);
@@ -55,7 +57,7 @@ public class Minion : MonoBehaviour
     public IEnumerator Turn(string direction)
     {
         if (isTurning)
-        yield break;
+            yield break;
 
         Debug.Log("Player turns!");
 
@@ -66,7 +68,7 @@ public class Minion : MonoBehaviour
     public IEnumerator Attack()
     {
         if (isAttacking)
-        yield break;
+            yield break;
 
         Vector2 checkDirection = transform.up;
 
@@ -95,6 +97,11 @@ public class Minion : MonoBehaviour
 
     public void Collect()
     {
+        if (item != null)
+        {
+            item.OnCollect(transform);
+            item = null;
+        }
         Debug.Log("Player collects item!");
     }
 
@@ -178,11 +185,11 @@ public class Minion : MonoBehaviour
 
         AudioManager.Instance.PlaySound(roombaSuperShort, 0.6f);
         Vector2 startPos = transform.position;
-        Vector2 buildUpPos = startPos - direction/6f;
+        Vector2 buildUpPos = startPos - direction / 6f;
         Vector2 endPos = startPos + direction;
         float buildUpDuration = 0.25f;
         float duration = 0.25f;
-        float time = 0f;
+        float time = 0;
 
         while (time < buildUpDuration)
         {
@@ -245,7 +252,7 @@ public class Minion : MonoBehaviour
     {
         Vector2 pos = transform.position;
         if (targetPos != null)
-        pos = targetPos.position;
+            pos = targetPos.position;
 
         RaycastHit2D hit = Physics2D.Raycast(pos, dir, moveDistance, wallLayer);
         return hit.collider != null;
@@ -254,7 +261,7 @@ public class Minion : MonoBehaviour
     {
         Vector2 pos = transform.position;
         if (targetPos != null)
-        pos = targetPos.position;
+            pos = targetPos.position;
 
         RaycastHit2D hit = Physics2D.Raycast(pos, dir, moveDistance, moveObjectLayer);
         return hit.collider != null;
@@ -282,6 +289,19 @@ public class Minion : MonoBehaviour
     private void OnDestroy()
     {
         if (GameManager.Instance)
-       GameManager.Instance.OnGameReset -= HandleReset;
+            GameManager.Instance.OnGameReset -= HandleReset;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        item = other.GetComponent<Collectable>();
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<Collectable>() == item)
+        {
+            item = null;
+        }
     }
 }
