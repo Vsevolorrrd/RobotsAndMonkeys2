@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    private bool collected = false;
+    // private bool collected = false;
 
-    public void OnCollect(Transform playerTransform)
+    public void OnCollect(Transform playerTransform, Collectable currentItem)
     {
-        Debug.Log("Item collected. Destroying.");
+        if (currentItem != null)
+        {
+            currentItem.Drop(transform);
+        }
+        Debug.Log("Item collected. Setting new parrent.");
         transform.SetParent(playerTransform);
 
         transform.localPosition = Vector2.zero;
 
-        Collider2D col = GetComponent<Collider2D>();
+        // Collider2D col = GetComponent<Collider2D>();
+    }
+
+    public void Drop(Transform currentItem)
+    {
+        transform.SetParent(null);
+
+        transform.position = currentItem.position;
     }
 }

@@ -18,10 +18,11 @@ public class Minion : MonoBehaviour
     private bool isMoving = false;
     private bool isTurning = false;
     private bool isAttacking = false;
-    private bool isShooting = false;
+    private bool canShoot = false;
     private int moveDistance = 1;
     private Vector3 initialPosition;
     Collectable item;
+    Collectable currentItem;
 
     public IEnumerator Move(string direction)
     {
@@ -102,7 +103,16 @@ public class Minion : MonoBehaviour
     {
         if (item != null)
         {
-            item.OnCollect(transform);
+            item.OnCollect(transform, currentItem);
+            currentItem = item;
+            if (item.GetComponent<Pistol>())
+            {
+                canShoot = true;
+            }
+            else
+            {
+                canShoot = false;
+            }
             item = null;
         }
         Debug.Log("Player collects item!");
@@ -110,7 +120,7 @@ public class Minion : MonoBehaviour
 
     public IEnumerator Shoot()
     {
-        if (isShooting)
+        if (!canShoot)
             yield break;
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);

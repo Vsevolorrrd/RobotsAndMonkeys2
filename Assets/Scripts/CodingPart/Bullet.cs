@@ -29,9 +29,4 @@ public class Bullet : MonoBehaviour
         }
         Debug.Log("Triggered something else");
     }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        
-    }
 }
