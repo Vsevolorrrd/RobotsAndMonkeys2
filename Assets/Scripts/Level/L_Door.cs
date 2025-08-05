@@ -9,7 +9,6 @@ public class L_Door : MonoBehaviour
     {
         GetComponent<Collider2D>().enabled = !state;
         animator.SetBool("OpenDoor", state);
-
     }
     private void HandleReset()
     {
