@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -499582295
   m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 6674204678412613614, guid: 84708ba1c3d146243886f320e2d2d0cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -269,6 +269,8 @@ MonoBehaviour:
   roombaSuperShort: {fileID: 8300000, guid: 69aea517e1b04d54a86baa4faed6207b, type: 3}
   roombaSound: {fileID: 8300000, guid: b58259a39c7c9094a95fb7163a7f8423, type: 3}
   hitSound: {fileID: 8300000, guid: c02ae3cf1644c7c4d98501298a2dc169, type: 3}
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!58 &7523044953788187662
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -407,7 +409,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -499582295
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a47ba47e5d83b774da247a9cd8ecf600, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -543,7 +545,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -499582295
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -302,7 +302,11 @@ public class Minion : MonoBehaviour
         transform.position = initialPosition;
         transform.rotation = Quaternion.identity;
         blood.SetActive(false);
+
         StopAllCoroutines();
+        isMoving = false;
+        isTurning = false;
+        isAttacking = false;
     }
 
     private void Start()
@@ -314,7 +318,7 @@ public class Minion : MonoBehaviour
     private void OnDestroy()
     {
         if (GameManager.Instance)
-            GameManager.Instance.OnGameReset -= HandleReset;
+        GameManager.Instance.OnGameReset -= HandleReset;
     }
 
     void OnTriggerEnter2D(Collider2D other)
