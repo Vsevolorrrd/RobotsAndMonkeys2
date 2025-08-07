@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class CodeWindow : MonoBehaviour
 {
-    [SerializeField] GameObject UI;
+    [SerializeField] GameObject programmingUI;
+    [SerializeField] GameObject runUI;
     [SerializeField] TMP_InputField codeInputField;
     [SerializeField] Button runButton;
     [SerializeField] bool SetActiveOnStart = true;
@@ -12,7 +13,7 @@ public class CodeWindow : MonoBehaviour
     private void Start()
     {
         if (SetActiveOnStart)
-        UI.SetActive(true);
+        programmingUI.SetActive(true);
 
         GameManager.Instance.OnStateChanged += SetUI;
 
@@ -28,10 +29,12 @@ public class CodeWindow : MonoBehaviour
         switch (state)
         {
             case GameState.Programming:
-                UI.SetActive(true);
+                programmingUI.SetActive(true);
+                runUI.SetActive(false);
                 break;
             case GameState.Executing:
-                UI.SetActive(false);
+                programmingUI.SetActive(false);
+                runUI.SetActive(true);
                 break;
         }
     }

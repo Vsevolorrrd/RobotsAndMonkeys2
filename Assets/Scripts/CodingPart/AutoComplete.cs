@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -11,7 +12,7 @@ public class AutoComplete : MonoBehaviour
 
     private string currentSuggestion = "";
     private bool suppressInput = false;
-    private bool didit;
+    private bool autoCompleted;
 
     private void Start()
     {
@@ -25,17 +26,25 @@ public class AutoComplete : MonoBehaviour
         if (!string.IsNullOrEmpty(currentSuggestion) && Keyboard.current.tabKey.wasPressedThisFrame)
         {
             ApplySuggestion();
-            didit = true;
+            autoCompleted = true;
         }
     }
 
-    private  void LateUpdate()
+    private void LateUpdate()
     {
-        if(didit)
+        if (autoCompleted)
         {
-            didit = false;
-            inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
-            inputField.caretPosition = inputField.text.Length;
+            autoCompleted = false;
+
+            int tabPos = inputField.text.IndexOf('\t');
+            if (tabPos >= 0)
+            {
+                string text = inputField.text;
+                text = text.Remove(tabPos, 1);
+                inputField.text = text;
+
+                inputField.caretPosition = tabPos;
+            }
         }
     }
 
@@ -44,7 +53,22 @@ public class AutoComplete : MonoBehaviour
         if (suppressInput)
         return;
 
-        string currentWord = GetCurrentWord();
+        int caretPos = inputField.caretPosition;
+        string text = inputField.text;
+
+        // find current word
+        int wordStart = text.LastIndexOfAny(new[] { ' ', '\n', '\t' }, caretPos - 1) + 1;
+        int wordLength = caretPos - wordStart;
+
+        if (wordStart < 0 || wordLength < 0 || wordStart + wordLength > text.Length)
+        {
+            suggestionText.text = "";
+            currentSuggestion = "";
+            return;
+        }
+
+        string currentWord = text.Substring(wordStart, wordLength);
+
         if (string.IsNullOrWhiteSpace(currentWord))
         {
             suggestionText.text = "";
@@ -52,15 +76,19 @@ public class AutoComplete : MonoBehaviour
             return;
         }
 
-        var match = AutoCompleteDatabase.Keywords.FirstOrDefault(k => k.StartsWith(currentWord) && k.Length > currentWord.Length);
+        var match = AutoCompleteDatabase.Keywords.FirstOrDefault(k =>
+        k.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase) &&
+        k.Length > currentWord.Length);
 
         if (match != null)
         {
             string completedPart = match.Substring(currentWord.Length);
             currentSuggestion = completedPart;
 
-            // Compose ghost text: typed input + gray suggestion
-            suggestionText.text = fullText + $"<color=#888888>{completedPart}</color>";
+            string beforeWord = text.Substring(0, wordStart);
+            string afterWord = text.Substring(caretPos);
+            string ghostWord = currentWord + $"<color=#888888>{completedPart}</color>";
+            suggestionText.text = beforeWord + ghostWord + afterWord;
         }
         else
         {
@@ -72,12 +100,29 @@ public class AutoComplete : MonoBehaviour
     private void ApplySuggestion()
     {
         suppressInput = true;
-        string text = inputField.text;
-        string completedText = text + currentSuggestion;
-        inputField.text = completedText;
-        inputField.caretPosition = completedText.Length;
+
+        int caretPos = inputField.caretPosition;
+        string originalText = inputField.text;
+
+        int wordStart = originalText.LastIndexOfAny(new[] { ' ', '\n', '\t' }, caretPos - 1) + 1;
+        int wordLength = caretPos - wordStart;
+
+        if (wordStart < 0 || wordStart + wordLength > originalText.Length)
+        {
+            suppressInput = false;
+            return;
+        }
+
+        string before = originalText.Substring(0, wordStart);
+        string after = originalText.Substring(caretPos);
+        string completedWord = originalText.Substring(wordStart, wordLength) + currentSuggestion;
+        string newText = before + completedWord + after;
+
+        inputField.text = newText;
+        inputField.caretPosition = before.Length + completedWord.Length;
         suggestionText.text = "";
         currentSuggestion = "";
+
         suppressInput = false;
     }
 
@@ -89,7 +134,7 @@ public class AutoComplete : MonoBehaviour
         int length = caretPos - start;
 
         if (start < 0 || caretPos > text.Length || length < 0 || start + length > text.Length)
-            return "";
+        return "";
 
         return text.Substring(start, length);
     }

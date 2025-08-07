@@ -12,6 +12,16 @@ public class GameManager : Singleton<GameManager>
     {
         SetState(GameState.Programming);
     }
+    private void Update()
+    {
+        if (currentState == GameState.Programming)
+        return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ResetLevel();
+        }
+    }
 
     public void SetState(GameState newState)
     {

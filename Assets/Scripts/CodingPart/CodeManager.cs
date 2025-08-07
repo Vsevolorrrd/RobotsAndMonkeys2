@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CodeManager : Singleton<CodeManager>
@@ -33,6 +32,7 @@ public class CodeManager : Singleton<CodeManager>
             yield return new WaitForSeconds(0.5f); // Delay between commands
         }
         yield return new WaitForSeconds(1f);
+
         if (!playerWon)
         GameManager.Instance.ResetLevel();
     }
