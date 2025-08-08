@@ -5,7 +5,7 @@ using UnityEngine;
 public class CodeManager : Singleton<CodeManager>
 {
     public Minion minion;
-    private Queue<string> commands = new();
+    private Queue<(string command, int index)> commands = new();
     private bool playerWon = false;
     public void PlayerWon() => playerWon = true;
 
@@ -13,11 +13,11 @@ public class CodeManager : Singleton<CodeManager>
     {
         commands.Clear();
 
-        foreach (string line in lines)
+        for (int i = 0; i < lines.Length; i++)
         {
-            string trimmed = line.Trim().ToLower();
+            string trimmed = lines[i].Trim().ToLower();
             if (!string.IsNullOrEmpty(trimmed))
-            commands.Enqueue(trimmed);
+            commands.Enqueue((trimmed, i));
         }
 
         StartCoroutine(ExecuteCommands());
@@ -27,9 +27,11 @@ public class CodeManager : Singleton<CodeManager>
     {
         while (commands.Count > 0)
         {
-            string commandLine = commands.Dequeue();
+            var (commandLine, index) = commands.Dequeue();
+            CodeWindow.Instance.UpdateCodeHighlight(index);
+
             yield return ExecuteCommand(commandLine);
-            yield return new WaitForSeconds(0.5f); // Delay between commands
+            yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(1f);
 
