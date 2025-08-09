@@ -4,7 +4,7 @@ public class Collectable : MonoBehaviour
 {
     // private bool collected = false;
 
-    public void OnCollect(Transform playerTransform, Collectable currentItem)
+    public virtual void OnCollect(Transform playerTransform, Collectable currentItem)
     {
         if (currentItem != null)
         {
@@ -18,7 +18,7 @@ public class Collectable : MonoBehaviour
         // Collider2D col = GetComponent<Collider2D>();
     }
 
-    public void Drop(Transform currentItem)
+    public virtual void Drop(Transform currentItem)
     {
         transform.SetParent(null);
 

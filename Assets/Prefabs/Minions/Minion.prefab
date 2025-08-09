@@ -241,6 +241,7 @@ Transform:
   m_Children:
   - {fileID: 6216886562825701228}
   - {fileID: 1800539362740383463}
+  - {fileID: 2518323102840101809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7394857877945669471
@@ -269,8 +270,9 @@ MonoBehaviour:
   roombaSuperShort: {fileID: 8300000, guid: 69aea517e1b04d54a86baa4faed6207b, type: 3}
   roombaSound: {fileID: 8300000, guid: b58259a39c7c9094a95fb7163a7f8423, type: 3}
   hitSound: {fileID: 8300000, guid: c02ae3cf1644c7c4d98501298a2dc169, type: 3}
-  bulletPrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  shot: {fileID: 8300000, guid: b4d68a2054d40a74890ff20376f0f448, type: 3}
+  bulletPrefab: {fileID: 217871200493553385, guid: 0ebbf6082109c4160878efcce40baaa7, type: 3}
+  firePoint: {fileID: 2518323102840101809}
 --- !u!58 &7523044953788187662
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -334,6 +336,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &6585484865888953985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2518323102840101809}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2518323102840101809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585484865888953985}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3671893129097827119}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7954379868149523470
 GameObject:
   m_ObjectHideFlags: 0

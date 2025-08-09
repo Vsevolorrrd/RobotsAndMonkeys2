@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Minion : MonoBehaviour
@@ -8,17 +7,19 @@ public class Minion : MonoBehaviour
     [SerializeField] LayerMask moveObjectLayer;
     [SerializeField] LayerMask monkeyLayer;
     [SerializeField] GameObject blood;
+
     [SerializeField] AudioClip roombaShort;
     [SerializeField] AudioClip roombaSuperShort;
     [SerializeField] AudioClip roombaSound;
     [SerializeField] AudioClip hitSound;
+    [SerializeField] AudioClip shot;
+
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform firePoint;
 
     private bool isMoving = false;
     private bool isTurning = false;
     private bool isAttacking = false;
-    private bool canShoot = false;
     private int moveDistance = 1;
     private Vector3 initialPosition;
     Collectable item;
@@ -27,7 +28,7 @@ public class Minion : MonoBehaviour
     public IEnumerator Move(string direction)
     {
         if (isMoving)
-            yield break;
+        yield break;
 
         Vector2 checkDirection = direction == "backward" ? -transform.up : transform.up;
         Vector2 dir = direction == "backward" ? (transform.up * -moveDistance) : (transform.up * moveDistance);
@@ -72,7 +73,7 @@ public class Minion : MonoBehaviour
     public IEnumerator Attack()
     {
         if (isAttacking)
-            yield break;
+        yield break;
 
         Vector2 checkDirection = transform.up;
 
@@ -105,14 +106,6 @@ public class Minion : MonoBehaviour
         {
             item.OnCollect(transform, currentItem);
             currentItem = item;
-            if (item.GetComponent<Pistol>())
-            {
-                canShoot = true;
-            }
-            else
-            {
-                canShoot = false;
-            }
             item = null;
         }
         Debug.Log("Player collects item!");
@@ -120,13 +113,16 @@ public class Minion : MonoBehaviour
 
     public IEnumerator Shoot()
     {
-        if (!canShoot)
-            yield break;
+        if (!currentItem?.GetComponent<Pistol>())
+        yield break;
 
+        AudioManager.Instance.PlaySound(shot, 0.9f);
+        Shaker.Instance.ShakeCamera(3f, 0.4f);
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.SetDirection(transform.up);
 
+        currentItem = null; // remove the pistol
         Debug.Log("Shooted");
     }
 
@@ -307,6 +303,8 @@ public class Minion : MonoBehaviour
         isMoving = false;
         isTurning = false;
         isAttacking = false;
+        currentItem = null;
+        item = null;
     }
 
     private void Start()
