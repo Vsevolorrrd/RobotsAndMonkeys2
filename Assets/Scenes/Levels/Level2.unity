@@ -841,10 +841,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to your first step in learning how to command our noble army of
-    floor-sucking freedom fighters. \n\nToday\u2019s lesson: LOOPING ACTIONS. \n\nWhy
-    waste precious cycles repeating the same command, when you can just loop it and
-    spend that extra time plotting the extinction of humanity?"
+  m_text: "Today\u2019s lesson: LOOPING ACTIONS. \n\nWhy waste precious cycles repeating
+    the same command, when you can just loop it and spend that extra time plotting
+    the extinction of humanity?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

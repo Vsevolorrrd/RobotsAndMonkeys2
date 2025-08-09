@@ -12,6 +12,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        if (runButton == null) return;
+
         runButton.onClick.AddListener(() =>
         {
             string[] lines = codeInputField.text.Split('\n');
@@ -37,7 +39,7 @@ public class MainMenu : MonoBehaviour
         switch (commandLine) // I was lasy, okay?
         {
             case "new game":
-                SceneLoader.Instance.LoadScene("Level1");
+                SceneLoader.Instance.LoadScene("Intro");
                 break;
 
             case "exit game":
@@ -70,5 +72,9 @@ public class MainMenu : MonoBehaviour
         }
 
         yield return null;
+    }
+    public void loadLevel()
+    {
+        SceneLoader.Instance.LoadScene("Level1");
     }
 }
