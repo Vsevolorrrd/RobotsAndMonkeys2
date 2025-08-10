@@ -10,6 +10,11 @@ public class Bullet : MonoBehaviour
         transform.position = (Vector2)transform.position + moveDirection * speed * Time.deltaTime;
     }
 
+    public void SetRotation(Transform playerTransform)
+    {
+        transform.rotation = playerTransform.rotation * Quaternion.Euler(0, 0, 90f);
+    }
+
     public void SetDirection(Vector2 direction)
     {
         moveDirection = direction.normalized;

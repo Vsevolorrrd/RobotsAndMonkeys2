@@ -21,4 +21,10 @@ public class Pistol : Collectable
         base.Drop(currentItem);
         pistolRenderer.sprite = pistol;
     }
+
+    public override void HandleReset()
+    {
+        base.HandleReset();
+        pistolRenderer.sprite = pistol;
+    }
 }

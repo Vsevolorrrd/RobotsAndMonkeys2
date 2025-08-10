@@ -121,7 +121,9 @@ public class Minion : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.SetDirection(transform.up);
+        bulletScript.SetRotation(transform);
 
+        currentItem.GetComponent<Collectable>().Drop(transform);
         currentItem = null; // remove the pistol
         Debug.Log("Shooted");
     }
