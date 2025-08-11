@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -27,11 +28,20 @@ public class Bullet : MonoBehaviour
             monkey.AboutToDie();
             monkey.Die();
             Debug.Log("Triggered monkey");
-        }
-        if (!other.GetComponent<Minion>())
-        {
             Destroy(gameObject);
         }
+
+        if (!other.GetComponent<Minion>() || !other.GetComponent<Killable>())
+        {
+            StartCoroutine(DestroyBullet());
+        }
         Debug.Log("Triggered something else");
+    }
+
+    public IEnumerator DestroyBullet()
+    {
+        yield return new WaitForSeconds(2f);
+
+        Destroy(gameObject);
     }
 }

@@ -783,8 +783,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df07035f97bd4c342873b86afc3c13b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monkeysToKill: []
-  sceneToLoad: Level4
+  monkeysToKill:
+  - {fileID: 1097814823}
+  sceneToLoad: Level5
 --- !u!4 &610224957
 Transform:
   m_ObjectHideFlags: 0

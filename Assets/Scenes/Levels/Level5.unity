@@ -2084,6 +2084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa57076abe0341e4b2d0023a8101486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPosition: {x: 0, y: 0}
   pistol: {fileID: -6922188063898873847, guid: 41590d44300cd564d837b99a0b0ceac6, type: 3}
   pistolWithTape: {fileID: -1126539088193314192, guid: 41590d44300cd564d837b99a0b0ceac6, type: 3}
 --- !u!4 &350518955
