@@ -22,7 +22,6 @@ public class AutoComplete : MonoBehaviour
 
     private void Update()
     {
-        // Accept suggestion on Tab or RightArrow
         if (!string.IsNullOrEmpty(currentSuggestion) && Keyboard.current.tabKey.wasPressedThisFrame)
         {
             ApplySuggestion();
@@ -87,7 +86,7 @@ public class AutoComplete : MonoBehaviour
 
             string beforeWord = text.Substring(0, wordStart);
             string afterWord = text.Substring(caretPos);
-            string ghostWord = currentWord + $"<color=#888888>{completedPart}</color>";
+            string ghostWord = currentWord + completedPart;
             suggestionText.text = beforeWord + ghostWord + afterWord;
         }
         else
@@ -124,19 +123,6 @@ public class AutoComplete : MonoBehaviour
         currentSuggestion = "";
 
         suppressInput = false;
-    }
-
-    private string GetCurrentWord()
-    {
-        int caretPos = inputField.caretPosition;
-        string text = inputField.text;
-        int start = text.LastIndexOfAny(new[] { ' ', '\n', '\t' }, caretPos - 1) + 1;
-        int length = caretPos - start;
-
-        if (start < 0 || caretPos > text.Length || length < 0 || start + length > text.Length)
-        return "";
-
-        return text.Substring(start, length);
     }
 }
 public static class AutoCompleteDatabase
