@@ -270,7 +270,7 @@ MonoBehaviour:
   roombaSuperShort: {fileID: 8300000, guid: 69aea517e1b04d54a86baa4faed6207b, type: 3}
   roombaSound: {fileID: 8300000, guid: b58259a39c7c9094a95fb7163a7f8423, type: 3}
   hitSound: {fileID: 8300000, guid: c02ae3cf1644c7c4d98501298a2dc169, type: 3}
-  shot: {fileID: 8300000, guid: b4d68a2054d40a74890ff20376f0f448, type: 3}
+  shot: {fileID: 8300000, guid: 1272cc9eb339ab74dac1bcab6a9abf51, type: 3}
   bulletPrefab: {fileID: 217871200493553385, guid: 0ebbf6082109c4160878efcce40baaa7, type: 3}
   firePoint: {fileID: 2518323102840101809}
 --- !u!58 &7523044953788187662

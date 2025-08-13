@@ -98,6 +98,11 @@ public class CodeManager : Singleton<CodeManager>
                     yield return StartCoroutine(minion.Shoot());
                     break;
 
+
+                case "main menu":
+                    SceneLoader.Instance.LoadScene("MainMenu");
+                    break;
+
                 default:
                     Debug.LogWarning($"Unknown command: {commandLine}");
                     break;
