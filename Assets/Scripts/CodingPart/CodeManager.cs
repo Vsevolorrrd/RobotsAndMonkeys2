@@ -54,7 +54,7 @@ public class CodeManager : Singleton<CodeManager>
 
             string repeatPart = raw.Substring(open + 1, close - open - 1);
             if (int.TryParse(repeatPart, out int parsed))
-            repeatCount = Mathf.Max(1, parsed);
+            repeatCount = Mathf.Max(0, parsed);
 
             raw = raw.Substring(0, open).Trim();
         }
@@ -79,7 +79,7 @@ public class CodeManager : Singleton<CodeManager>
                     if (parts.Length > 1)
                     yield return StartCoroutine(minion.Turn(parts[1]));
                     else
-                    Debug.LogWarning("turn command missing directio");
+                    Debug.LogWarning("turn command missing direction");
                     break;
 
                 case "attack":
