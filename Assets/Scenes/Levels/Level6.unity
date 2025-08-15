@@ -1345,6 +1345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3710815769912219997, guid: c6e80555a9ecdcc4184d63311818c706, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4634580251504829799, guid: c6e80555a9ecdcc4184d63311818c706, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1983,6 +1987,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbb966bf1e38621468d9d7b60fc051f6, type: 3}
+--- !u!114 &1298608641 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3855233546210358312, guid: bbb966bf1e38621468d9d7b60fc051f6, type: 3}
+  m_PrefabInstance: {fileID: 1298608640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 795e4ef4694d5064d8c2ba0554aa4b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1318183230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,6 +2250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766322019}
+  - component: {fileID: 1766322020}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -2264,6 +2280,21 @@ Transform:
   - {fileID: 384894332170715972}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766322020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766322018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df07035f97bd4c342873b86afc3c13b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monkeysToKill:
+  - {fileID: 1298608641}
+  sceneToLoad: 7
 --- !u!4 &1772875933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7204097164213080038, guid: 353a3e27a9c6284419ada3e13140c3cf, type: 3}
