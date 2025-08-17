@@ -99,7 +99,7 @@ public class CodeManager : Singleton<CodeManager>
                     break;
 
 
-                case "main menu":
+                case "main":
                     SceneLoader.Instance.LoadScene("MainMenu");
                     break;
 
