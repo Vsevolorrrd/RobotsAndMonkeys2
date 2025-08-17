@@ -2294,7 +2294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monkeysToKill:
   - {fileID: 1298608641}
-  sceneToLoad: 7
+  sceneToLoad: MainMenu
 --- !u!4 &1772875933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7204097164213080038, guid: 353a3e27a9c6284419ada3e13140c3cf, type: 3}
